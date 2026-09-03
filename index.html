@@ -1,0 +1,4952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        The Morning I Didn't Wake Up — The Pages That Bleed
+    </title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Special+Elite&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================
+           RESET
+        ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        :root {
+            --background: #050505;
+            --paper: #d8c9a5;
+            --paper-dark: #bcae8d;
+            --ink: #1b1610;
+            --blood: #780707;
+            --blood-bright: #a30b0b;
+            --muted: #777;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            overflow-x: hidden;
+
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    rgba(100, 0, 0, 0.12),
+                    transparent 35%
+                ),
+                #050505;
+
+            color: white;
+
+            font-family:
+                "Cormorant Garamond",
+                Georgia,
+                serif;
+        }
+
+
+        /* =========================================
+           ATMOSPHERE
+        ========================================= */
+
+        .darkness {
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 100;
+
+            box-shadow:
+                inset 0 0 180px #000;
+        }
+
+
+        .noise {
+            position: fixed;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 0.045;
+
+            z-index: 99;
+
+            background-image:
+                repeating-radial-gradient(
+                    circle at 0 0,
+                    transparent 0,
+                    rgba(255,255,255,.25) 1px,
+                    transparent 2px
+                );
+
+            background-size: 4px 4px;
+        }
+
+
+        .whisper {
+            position: fixed;
+
+            right: 30px;
+            bottom: 30px;
+
+            z-index: 200;
+
+            opacity: 0;
+
+            color: var(--blood-bright);
+
+            font-family:
+                "Special Elite",
+                monospace;
+
+            font-size: 12px;
+
+            letter-spacing: 2px;
+
+            pointer-events: none;
+
+            transition:
+                opacity 1.2s ease;
+        }
+
+
+        .whisper.show {
+            opacity: .8;
+        }
+
+
+        /* =========================================
+           MAIN EXPERIENCE
+        ========================================= */
+
+        .book-experience {
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 35px 20px;
+        }
+
+
+        .site-header {
+            width: min(920px, 94vw);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 24px;
+
+            font-family:
+                "Special Elite",
+                monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 3px;
+
+            color: #777;
+        }
+
+
+        .brand {
+            color: #aaa;
+        }
+
+
+        #chapterName {
+            color: var(--blood-bright);
+
+            text-align: right;
+        }
+
+
+        /* =========================================
+           BOOK
+        ========================================= */
+
+        .book-container {
+            perspective: 2500px;
+        }
+
+
+        .book {
+            position: relative;
+
+            width: min(900px, 94vw);
+
+            height: min(690px, 74vh);
+
+            min-height: 500px;
+        }
+
+
+        .page {
+            position: absolute;
+
+            inset: 0;
+
+            display: none;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,.14),
+                    transparent 11%,
+                    transparent 89%,
+                    rgba(0,0,0,.09)
+                ),
+                radial-gradient(
+                    circle at center,
+                    rgba(255,255,255,.2),
+                    transparent 65%
+                ),
+                var(--paper);
+
+            color: var(--ink);
+
+            box-shadow:
+                0 35px 90px rgba(0,0,0,.85),
+                inset 0 0 80px rgba(80,50,10,.14);
+
+            border-radius: 3px;
+
+            transform-origin:
+                left center;
+        }
+
+
+        .page.active {
+            display: block;
+
+            animation:
+                pageAppear
+                .6s
+                cubic-bezier(.2,.7,.2,1);
+        }
+
+
+        @keyframes pageAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    rotateY(-15deg)
+                    translateX(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    rotateY(0deg)
+                    translateX(0);
+            }
+
+        }
+
+
+        .page-content {
+            height: 100%;
+
+            max-width: 730px;
+
+            margin: auto;
+
+            padding:
+                62px
+                72px
+                70px;
+
+            overflow-y: auto;
+
+            scrollbar-width: thin;
+        }
+
+
+        /* =========================================
+           TYPOGRAPHY
+        ========================================= */
+
+        .book-title {
+            font-family:
+                "Special Elite",
+                monospace;
+
+            font-size: 11px;
+
+            color: var(--blood);
+
+            letter-spacing: 4px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .chapter-number {
+            font-family:
+                "Special Elite",
+                monospace;
+
+            color: var(--blood);
+
+            font-size: 11px;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 16px;
+        }
+
+
+        .continued {
+            font-family:
+                "Special Elite",
+                monospace;
+
+            color: #776e5d;
+
+            font-size: 10px;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 18px;
+        }
+
+
+        h1 {
+            font-size:
+                clamp(48px, 8vw, 95px);
+
+            line-height: .8;
+
+            margin-bottom: 30px;
+        }
+
+
+        h2 {
+            font-size:
+                clamp(42px, 6vw, 72px);
+
+            line-height: .95;
+
+            margin-bottom: 28px;
+        }
+
+
+        .page-divider {
+            width: 75px;
+
+            height: 2px;
+
+            margin-bottom: 32px;
+
+            background: var(--blood);
+        }
+
+
+        .page p {
+            font-size:
+                clamp(18px, 2.2vw, 23px);
+
+            line-height: 1.55;
+
+            margin-bottom: 18px;
+        }
+
+
+        .quote {
+            border-left:
+                3px solid var(--blood);
+
+            padding-left: 20px;
+
+            font-style: italic;
+
+            font-size:
+                clamp(21px, 2.7vw, 29px)
+                !important;
+        }
+
+
+        .emphasis {
+            color: var(--blood);
+
+            font-weight: 700;
+        }
+
+
+        .center {
+            text-align: center;
+        }
+
+
+        .large {
+            font-size:
+                clamp(25px, 4vw, 42px)
+                !important;
+
+            line-height: 1.2
+                !important;
+        }
+
+
+        /* =========================================
+           COVER
+        ========================================= */
+
+        .cover {
+            color: #eee;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(120,0,0,.27),
+                    transparent 50%
+                ),
+                #070303;
+        }
+
+
+        .cover .page-content {
+            display: flex;
+
+            height: 100%;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            overflow: hidden;
+        }
+
+
+        .blood-line {
+            width: 85px;
+
+            height: 4px;
+
+            background: var(--blood);
+
+            margin-bottom: 32px;
+        }
+
+
+        .cover-small {
+            font-family:
+                "Special Elite",
+                monospace;
+
+            color: #888;
+
+            font-size: 11px
+                !important;
+
+            letter-spacing: 4px;
+        }
+
+
+        .cover-subtitle {
+            max-width: 420px;
+
+            color: #aaa;
+        }
+
+
+        .cover-warning {
+            margin-top: 30px;
+
+            font-family:
+                "Special Elite",
+                monospace;
+
+            color: #666;
+
+            font-size: 10px
+                !important;
+
+            letter-spacing: 3px;
+        }
+
+
+        /* =========================================
+           FINAL PAGE
+        ========================================= */
+
+        .final-page {
+            color: #ddd;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(100,0,0,.17),
+                    transparent 55%
+                ),
+                linear-gradient(
+                    145deg,
+                    #170000,
+                    #050505
+                );
+        }
+
+
+        .final-page .chapter-number {
+            color: #c33;
+        }
+
+
+        .final-page .page-content {
+            color: #c8c8c8;
+        }
+
+
+        /* =========================================
+           CONTROLS
+        ========================================= */
+
+        .controls {
+            width: min(900px, 94vw);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-top: 28px;
+        }
+
+
+        .nav-button {
+            width: 54px;
+
+            height: 54px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.04);
+
+            color: white;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition:
+                transform .25s ease,
+                background .25s ease;
+        }
+
+
+        .nav-button:hover:not(:disabled) {
+            background: var(--blood);
+
+            transform: scale(1.08);
+        }
+
+
+        .nav-button:disabled {
+            opacity: .2;
+
+            cursor: not-allowed;
+        }
+
+
+        .progress {
+            flex: 1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 14px;
+
+            font-family:
+                "Special Elite",
+                monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            color: #777;
+        }
+
+
+        .progress-line {
+            width: min(280px, 30vw);
+
+            height: 2px;
+
+            background:
+                rgba(255,255,255,.12);
+        }
+
+
+        #progressFill {
+            width: 0;
+
+            height: 100%;
+
+            background: var(--blood);
+
+            transition:
+                width .45s ease;
+        }
+
+
+        .keyboard-help {
+            margin-top: 20px;
+
+            font-family:
+                "Special Elite",
+                monospace;
+
+            color: #444;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .book-experience {
+                padding:
+                    20px
+                    10px;
+            }
+
+
+            .site-header {
+                font-size: 8px;
+
+                letter-spacing: 1.5px;
+            }
+
+
+            .book {
+                height: 78vh;
+
+                min-height: 560px;
+            }
+
+
+            .page-content {
+                padding:
+                    45px
+                    28px
+                    60px;
+            }
+
+
+            .page p {
+                line-height: 1.48;
+            }
+
+
+            .progress-line {
+                width: 80px;
+            }
+
+
+            .whisper {
+                right: 15px;
+                bottom: 15px;
+
+                font-size: 9px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+            <audio id="backgroundMusic" loop>
+    <source src="horror.mp3" type="audio/mpeg">
+</audio>
+
+
+
+ 
+
+    <div class="darkness"></div>
+    <div class="noise"></div>
+
+    <div
+        class="whisper"
+        id="whisper"
+    >
+        Don't stop reading.
+    </div>
+
+
+    <main class="book-experience">
+
+        <header class="site-header">
+
+            <div class="brand">
+                THE PAGES THAT BLEED
+            </div>
+
+            <div id="chapterName">
+                COVER
+            </div>
+
+        </header>
+
+
+        <section class="book-container">
+
+            <div
+                class="book"
+                id="book"
+            >
+
+
+                <!-- =====================================
+                     COVER
+                ====================================== -->
+
+                <article class="page cover active">
+
+                    <div class="page-content">
+
+                        <div class="blood-line"></div>
+
+                        <p class="cover-small">
+                            BOOK ONE
+                        </p>
+
+                        <h1>
+                            THE MORNING<br>
+                            I DIDN'T<br>
+                            WAKE UP
+                        </h1>
+
+                        <p class="cover-subtitle">
+                            THE PAGES THAT BLEED
+                        </p>
+
+                        <p class="cover-warning">
+                            OPEN AT YOUR OWN RISK.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     PROLOGUE — PAGE 1
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            PROLOGUE
+                        </p>
+
+                        <h2>
+                            Before You Continue
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            There is something you should know before you continue.
+                        </p>
+
+                        <p>
+                            Someone dies in this book.
+                        </p>
+
+                        <p>
+                            Not later.
+                        </p>
+
+                        <p>
+                            Not near the end.
+                        </p>
+
+                        <p>
+                            Someone has already died.
+                        </p>
+
+                        <p>
+                            You just haven't reached the page where you discover who.
+                        </p>
+
+                        <p>
+                            The police will eventually call it murder.
+                        </p>
+
+                        <p>
+                            The detective will eventually call it a pattern.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- PROLOGUE — PAGE 2 -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            PROLOGUE — CONTINUED
+                        </p>
+
+                        <p>
+                            I will eventually call it my fault.
+                        </p>
+
+                        <p>
+                            But you?
+                        </p>
+
+                        <p>
+                            You will call it a story.
+                        </p>
+
+                        <p class="large emphasis">
+                            That is why you are dangerous.
+                        </p>
+
+                        <p>
+                            Because when people hear a scream through a wall, they investigate.
+                        </p>
+
+                        <p>
+                            When they see blood on the floor, they run.
+                        </p>
+
+                        <p>
+                            But when you see it written on a page—
+                        </p>
+
+                        <p class="large">
+                            you turn it.
+                        </p>
+
+                        <p>
+                            And every time you turn one, something happens.
+                        </p>
+
+                        <p>
+                            I know.
+                        </p>
+
+                        <p class="quote">
+                            I've been waiting for you to start reading.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER ONE — PAGE 1
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER ONE
+                        </p>
+
+                        <h2>
+                            4:30 A.M.
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            Every morning, I wake up at 4:30.
+                        </p>
+
+                        <p>
+                            At least, that's what I used to believe.
+                        </p>
+
+                        <p>
+                            The alarm rings.
+                        </p>
+
+                        <p>
+                            I turn it off.
+                        </p>
+
+                        <p>
+                            I stare at the ceiling.
+                        </p>
+
+                        <p>
+                            Then I begin another day pretending I know where my life is going.
+                        </p>
+
+                        <p>
+                            College.
+                        </p>
+
+                        <p>
+                            Projects.
+                        </p>
+
+                        <p>
+                            Code.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CHAPTER ONE — PAGE 2 -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ONE — CONTINUED
+                        </p>
+
+                        <p>
+                            A future planned years before I have even reached it.
+                        </p>
+
+                        <p>
+                            Sometimes I think too much about the future.
+                        </p>
+
+                        <p>
+                            Not because I'm excited about it.
+                        </p>
+
+                        <p>
+                            Because I don't trust the present enough to stay here.
+                        </p>
+
+                        <p>
+                            So I plan.
+                        </p>
+
+                        <p>
+                            I imagine another country.
+                        </p>
+
+                        <p>
+                            Another house.
+                        </p>
+
+                        <p>
+                            Another version of myself.
+                        </p>
+
+                        <p>
+                            Someone successful.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CHAPTER ONE — PAGE 3 -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ONE — CONTINUED
+                        </p>
+
+                        <p>
+                            Someone who finally has enough money.
+                        </p>
+
+                        <p>
+                            Enough freedom.
+                        </p>
+
+                        <p>
+                            Enough distance.
+                        </p>
+
+                        <p>
+                            Someone who no longer needs to wake up at 4:30 in the morning.
+                        </p>
+
+                        <p>
+                            That morning began like every other.
+                        </p>
+
+                        <p>
+                            The alarm rang.
+                        </p>
+
+                        <p>
+                            I opened my eyes.
+                        </p>
+
+                        <p class="large emphasis">
+                            And there was someone sitting in the corner of my room.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CHAPTER ONE — PAGE 4 -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ONE — CONTINUED
+                        </p>
+
+                        <p>
+                            I stared at him.
+                        </p>
+
+                        <p>
+                            He stared back.
+                        </p>
+
+                        <p>
+                            Neither of us moved.
+                        </p>
+
+                        <p>
+                            He was about my age.
+                        </p>
+
+                        <p>
+                            Maybe.
+                        </p>
+
+                        <p>
+                            It was difficult to tell because his face was hidden in darkness.
+                        </p>
+
+                        <p>
+                            "Who are you?"
+                        </p>
+
+                        <p>
+                            He tilted his head.
+                        </p>
+
+                        <p class="quote">
+                            "You can see me?"
+                        </p>
+
+                        <p>
+                            I didn't answer.
+                        </p>
+
+                        <p>
+                            He smiled.
+                        </p>
+
+                        <p>
+                            "Oh."
+                        </p>
+
+                        <p>
+                            His voice became quieter.
+                        </p>
+
+                        <p class="large emphasis">
+                            "Then you're real."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER TWO
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER TWO
+                        </p>
+
+                        <p>
+                            I didn't tell anyone about him.
+                        </p>
+
+                        <p>
+                            That sounds stupid now.
+                        </p>
+
+                        <p>
+                            If a stranger appears in your room before sunrise, you tell someone.
+                        </p>
+
+                        <p>
+                            You call the police.
+                        </p>
+
+                        <p>
+                            You scream.
+                        </p>
+
+                        <p>
+                            You run.
+                        </p>
+
+                        <p>
+                            But there was something strange about him.
+                        </p>
+
+                        <p>
+                            Something familiar.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TWO — CONTINUED
+                        </p>
+
+                        <p>
+                            Not his face.
+                        </p>
+
+                        <p>
+                            Not his voice.
+                        </p>
+
+                        <p>
+                            His confidence.
+                        </p>
+
+                        <p>
+                            He behaved like he had known me for years.
+                        </p>
+
+                        <p>
+                            "You're late," he said the next morning.
+                        </p>
+
+                        <p>
+                            "For what?"
+                        </p>
+
+                        <p>
+                            "College."
+                        </p>
+
+                        <p>
+                            I looked at the clock.
+                        </p>
+
+                        <p>
+                            4:30 A.M.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TWO — CONTINUED
+                        </p>
+
+                        <p>
+                            "How do you know my schedule?"
+                        </p>
+
+                        <p>
+                            He laughed.
+                        </p>
+
+                        <p>
+                            "You tell me everything."
+                        </p>
+
+                        <p>
+                            "I don't know you."
+                        </p>
+
+                        <p>
+                            His smile slowly disappeared.
+                        </p>
+
+                        <p>
+                            "You don't remember?"
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            He looked genuinely afraid.
+                        </p>
+
+                        <p>
+                            That should have frightened me.
+                        </p>
+
+                        <p class="large emphasis">
+                            Instead, I felt sorry for him.
+                        </p>
+
+                        <p>
+                            That was my first mistake.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER THREE
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER THREE
+                        </p>
+
+                        <p>
+                            His name was Aarav.
+                        </p>
+
+                        <p>
+                            Or at least that's what he told me.
+                        </p>
+
+                        <p>
+                            He appeared only when nobody else was around.
+                        </p>
+
+                        <p>
+                            My room.
+                        </p>
+
+                        <p>
+                            Empty corridors.
+                        </p>
+
+                        <p>
+                            The computer lab after everyone had left.
+                        </p>
+
+                        <p>
+                            Once, I saw him sitting outside the college gate.
+                        </p>
+
+                        <p>
+                            I stopped walking.
+                        </p>
+
+                        <p>
+                            Cars passed between us.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER THREE — CONTINUED
+                        </p>
+
+                        <p>
+                            When the road cleared—
+                        </p>
+
+                        <p>
+                            he was gone.
+                        </p>
+
+                        <p>
+                            I started thinking he was imaginary.
+                        </p>
+
+                        <p>
+                            Stress.
+                        </p>
+
+                        <p>
+                            Lack of sleep.
+                        </p>
+
+                        <p>
+                            My brain inventing someone to talk to.
+                        </p>
+
+                        <p>
+                            It made sense.
+                        </p>
+
+                        <p>
+                            Until Aarav asked me a question.
+                        </p>
+
+                        <p class="quote">
+                            "Are you real?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER THREE — CONTINUED
+                        </p>
+
+                        <p>
+                            I laughed.
+                        </p>
+
+                        <p>
+                            "What kind of question is that?"
+                        </p>
+
+                        <p>
+                            He wasn't laughing.
+                        </p>
+
+                        <p>
+                            "Answer me."
+                        </p>
+
+                        <p>
+                            "Of course I'm real."
+                        </p>
+
+                        <p>
+                            He looked down.
+                        </p>
+
+                        <p>
+                            For a moment, I thought he was going to cry.
+                        </p>
+
+                        <p>
+                            Then he whispered:
+                        </p>
+
+                        <p class="large emphasis">
+                            "That's what I thought too."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER FOUR
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER FOUR
+                        </p>
+
+                        <p>
+                            The first student disappeared three days later.
+                        </p>
+
+                        <p>
+                            His name was Prakash.
+                        </p>
+
+                        <p>
+                            Nobody knew where he went.
+                        </p>
+
+                        <p>
+                            His phone was found near the computer lab.
+                        </p>
+
+                        <p>
+                            His bag was still inside his classroom.
+                        </p>
+
+                        <p>
+                            His parents came to college.
+                        </p>
+
+                        <p>
+                            His mother screamed at the principal.
+                        </p>
+
+                        <p>
+                            His father didn't say anything.
+                        </p>
+
+                        <p>
+                            He just kept looking toward the hallway.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOUR — CONTINUED
+                        </p>
+
+                        <p>
+                            Like he expected his son to walk around the corner.
+                        </p>
+
+                        <p>
+                            But Aarav knew something.
+                        </p>
+
+                        <p>
+                            I saw it in his face.
+                        </p>
+
+                        <p>
+                            "You know where he is."
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            "You looked at his picture."
+                        </p>
+
+                        <p>
+                            "So?"
+                        </p>
+
+                        <p>
+                            "You recognized him."
+                        </p>
+
+                        <p>
+                            Aarav was silent.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOUR — CONTINUED
+                        </p>
+
+                        <p>
+                            I stepped closer.
+                        </p>
+
+                        <p>
+                            "Tell me what you know."
+                        </p>
+
+                        <p>
+                            He finally looked at me.
+                        </p>
+
+                        <p>
+                            "I know he's not coming back."
+                        </p>
+
+                        <p>
+                            My stomach dropped.
+                        </p>
+
+                        <p>
+                            "How?"
+                        </p>
+
+                        <p>
+                            Aarav stepped backward.
+                        </p>
+
+                        <p class="quote">
+                            "Because he was talking to you yesterday."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOUR — CONTINUED
+                        </p>
+
+                        <p>
+                            I froze.
+                        </p>
+
+                        <p>
+                            Prakash had been talking to me yesterday.
+                        </p>
+
+                        <p>
+                            For almost an hour.
+                        </p>
+
+                        <p>
+                            We had argued about a project.
+                        </p>
+
+                        <p>
+                            A website.
+                        </p>
+
+                        <p>
+                            Something completely meaningless.
+                        </p>
+
+                        <p>
+                            But then I remembered something.
+                        </p>
+
+                        <p class="large emphasis">
+                            Something wrong.
+                        </p>
+
+                        <p>
+                            I had never seen Prakash leave.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER FIVE
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER FIVE
+                        </p>
+
+                        <p>
+                            The police arrived.
+                        </p>
+
+                        <p>
+                            Then the detective.
+                        </p>
+
+                        <p>
+                            His name was Detective Aryan.
+                        </p>
+
+                        <p>
+                            He looked younger than I expected.
+                        </p>
+
+                        <p>
+                            Calm.
+                        </p>
+
+                        <p class="large emphasis">
+                            Too calm.
+                        </p>
+
+                        <p>
+                            He asked simple questions.
+                        </p>
+
+                        <p>
+                            Where were you?
+                        </p>
+
+                        <p>
+                            When did you last see him?
+                        </p>
+
+                        <p>
+                            Did anything seem unusual?
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIVE — CONTINUED
+                        </p>
+
+                        <p>
+                            Everyone answered.
+                        </p>
+
+                        <p>
+                            Then he came to me.
+                        </p>
+
+                        <p>
+                            "When did you last speak to Prakash?"
+                        </p>
+
+                        <p>
+                            "Yesterday."
+                        </p>
+
+                        <p>
+                            "What did you talk about?"
+                        </p>
+
+                        <p>
+                            "A project."
+                        </p>
+
+                        <p>
+                            "What project?"
+                        </p>
+
+                        <p>
+                            I opened my mouth.
+                        </p>
+
+                        <p>
+                            Nothing came out.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIVE — CONTINUED
+                        </p>
+
+                        <p>
+                            I remembered arguing.
+                        </p>
+
+                        <p>
+                            I remembered being angry.
+                        </p>
+
+                        <p>
+                            I remembered his voice.
+                        </p>
+
+                        <p>
+                            But I couldn't remember what the project was.
+                        </p>
+
+                        <p>
+                            Detective Aryan watched me carefully.
+                        </p>
+
+                        <p>
+                            "That's strange."
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p>
+                            "Most people forget unimportant conversations."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIVE — CONTINUED
+                        </p>
+
+                        <p>
+                            He leaned closer.
+                        </p>
+
+                        <p>
+                            "But you remember everything else."
+                        </p>
+
+                        <p>
+                            I felt cold.
+                        </p>
+
+                        <p>
+                            "What are you saying?"
+                        </p>
+
+                        <p>
+                            He smiled.
+                        </p>
+
+                        <p class="large emphasis">
+                            "I'm saying someone has been editing your memories."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER SIX
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER SIX
+                        </p>
+
+                        <p>
+                            That night, I opened my laptop.
+                        </p>
+
+                        <p>
+                            A document was already open.
+                        </p>
+
+                        <p>
+                            I didn't recognize it.
+                        </p>
+
+                        <p>
+                            The title was:
+                        </p>
+
+                        <p class="large emphasis">
+                            DAY 17
+                        </p>
+
+                        <p>
+                            I clicked it.
+                        </p>
+
+                        <p>
+                            The first sentence read:
+                        </p>
+
+                        <p class="quote">
+                            Every morning, Sakshyam wakes up at 4:30.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIX — CONTINUED
+                        </p>
+
+                        <p>
+                            I stopped.
+                        </p>
+
+                        <p>
+                            The second sentence read:
+                        </p>
+
+                        <p class="quote">
+                            He does not yet understand why.
+                        </p>
+
+                        <p>
+                            I scrolled.
+                        </p>
+
+                        <p>
+                            The document contained everything that had happened.
+                        </p>
+
+                        <p>
+                            College.
+                        </p>
+
+                        <p>
+                            Aarav.
+                        </p>
+
+                        <p>
+                            Prakash.
+                        </p>
+
+                        <p>
+                            The detective.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIX — CONTINUED
+                        </p>
+
+                        <p>
+                            The conversation.
+                        </p>
+
+                        <p>
+                            My room.
+                        </p>
+
+                        <p>
+                            Even thoughts I had never spoken aloud.
+                        </p>
+
+                        <p>
+                            I scrolled faster.
+                        </p>
+
+                        <p>
+                            Then I reached the bottom.
+                        </p>
+
+                        <p>
+                            There was a sentence I hadn't read before.
+                        </p>
+
+                        <p class="quote">
+                            Sakshyam will now close the laptop and check the window.
+                        </p>
+
+                        <p>
+                            I stared at it.
+                        </p>
+
+                        <p>
+                            I didn't move.
+                        </p>
+
+                        <p>
+                            For several seconds.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIX — CONTINUED
+                        </p>
+
+                        <p>
+                            Then I slowly looked toward the window.
+                        </p>
+
+                        <p class="large emphasis">
+                            Someone was standing outside.
+                        </p>
+
+                        <p>
+                            Watching me.
+                        </p>
+
+                        <p>
+                            I slammed the laptop shut.
+                        </p>
+
+                        <p>
+                            My room went dark.
+                        </p>
+
+                        <p>
+                            Aarav whispered from somewhere beside me.
+                        </p>
+
+                        <p>
+                            "Don't worry."
+                        </p>
+
+                        <p>
+                            I couldn't see him.
+                        </p>
+
+                        <p>
+                            "Where are you?"
+                        </p>
+
+                        <p>
+                            Silence.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIX — CONTINUED
+                        </p>
+
+                        <p>
+                            Then his voice came again.
+                        </p>
+
+                        <p>
+                            "I'm still here."
+                        </p>
+
+                        <p>
+                            "Where?"
+                        </p>
+
+                        <p>
+                            A pause.
+                        </p>
+
+                        <p class="large emphasis">
+                            "Inside the part of your life you forgot."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER SEVEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER SEVEN
+                        </p>
+
+                        <p>
+                            The second body was found two days later.
+                        </p>
+
+                        <p>
+                            This time there was no disappearance.
+                        </p>
+
+                        <p>
+                            No mystery.
+                        </p>
+
+                        <p>
+                            The student was dead.
+                        </p>
+
+                        <p>
+                            Everyone knew it.
+                        </p>
+
+                        <p>
+                            The police closed the computer lab.
+                        </p>
+
+                        <p>
+                            The detective questioned everyone.
+                        </p>
+
+                        <p>
+                            And someone had written something on the wall.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVEN — CONTINUED
+                        </p>
+
+                        <p>
+                            Not with paint.
+                        </p>
+
+                        <p>
+                            With blood.
+                        </p>
+
+                        <p class="large emphasis center">
+                            HE READ IT TOO.
+                        </p>
+
+                        <p>
+                            Nobody understood what it meant.
+                        </p>
+
+                        <p>
+                            Except Aarav.
+                        </p>
+
+                        <p>
+                            I found him sitting in the empty classroom.
+                        </p>
+
+                        <p>
+                            "What does it mean?"
+                        </p>
+
+                        <p>
+                            He didn't look at me.
+                        </p>
+
+                        <p>
+                            "Sakshyam."
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "Do you remember when we first met?"
+                        </p>
+
+                        <p>
+                            "Yes."
+                        </p>
+
+                        <p>
+                            "You asked me who I was."
+                        </p>
+
+                        <p>
+                            "And?"
+                        </p>
+
+                        <p class="quote">
+                            "You never asked me how I got into your room."
+                        </p>
+
+                        <p>
+                            I felt something crawl beneath my skin.
+                        </p>
+
+                        <p>
+                            Aarav slowly turned toward me.
+                        </p>
+
+                        <p>
+                            "You knew I was already there."
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            "Yes."
+                        </p>
+
+                        <p>
+                            "I didn't."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVEN — CONTINUED
+                        </p>
+
+                        <p>
+                            His eyes filled with fear.
+                        </p>
+
+                        <p class="large emphasis">
+                            "You just forgot."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER EIGHT
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER EIGHT
+                        </p>
+
+                        <h2>
+                            THE LOCKED ROOM
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            There was a room in my house I had never entered.
+                        </p>
+
+                        <p>
+                            My mother had always told me not to open it.
+                        </p>
+
+                        <p>
+                            Not when I was a child.
+                        </p>
+
+                        <p>
+                            Not when I became older.
+                        </p>
+
+                        <p>
+                            Never.
+                        </p>
+
+                        <p>
+                            She never explained why.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHT — CONTINUED
+                        </p>
+
+                        <p>
+                            She just said:
+                        </p>
+
+                        <p class="quote">
+                            "Some things are locked because they're dangerous."
+                        </p>
+
+                        <p>
+                            After the second murder, I began noticing the door.
+                        </p>
+
+                        <p>
+                            Every day.
+                        </p>
+
+                        <p>
+                            Every night.
+                        </p>
+
+                        <p>
+                            At the end of the hallway.
+                        </p>
+
+                        <p>
+                            Locked.
+                        </p>
+
+                        <p>
+                            Silent.
+                        </p>
+
+                        <p>
+                            Waiting.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHT — CONTINUED
+                        </p>
+
+                        <p>
+                            One night, I heard someone knocking from inside.
+                        </p>
+
+                        <p>
+                            Three knocks.
+                        </p>
+
+                        <p>
+                            Then silence.
+                        </p>
+
+                        <p>
+                            Three knocks.
+                        </p>
+
+                        <p>
+                            Then silence.
+                        </p>
+
+                        <p>
+                            I stood outside the door for almost ten minutes.
+                        </p>
+
+                        <p>
+                            Then I heard my mother's voice.
+                        </p>
+
+                        <p>
+                            "Sakshyam."
+                        </p>
+
+                        <p>
+                            I froze.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHT — CONTINUED
+                        </p>
+
+                        <p>
+                            She was downstairs.
+                        </p>
+
+                        <p>
+                            I had seen her downstairs.
+                        </p>
+
+                        <p>
+                            But the voice came again.
+                        </p>
+
+                        <p>
+                            "Sakshyam."
+                        </p>
+
+                        <p>
+                            I unlocked the door.
+                        </p>
+
+                        <p>
+                            And opened it.
+                        </p>
+
+                        <p class="large emphasis">
+                            My mother was sitting inside.
+                        </p>
+
+                        <p>
+                            She looked terrified.
+                        </p>
+
+                        <p>
+                            I stepped backward.
+                        </p>
+
+                        <p>
+                            "Mom?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHT — CONTINUED
+                        </p>
+
+                        <p>
+                            She stared at me.
+                        </p>
+
+                        <p>
+                            Then she whispered:
+                        </p>
+
+                        <p>
+                            "Don't let him see you."
+                        </p>
+
+                        <p>
+                            "Who?"
+                        </p>
+
+                        <p>
+                            Her eyes moved toward the hallway behind me.
+                        </p>
+
+                        <p>
+                            "Your father."
+                        </p>
+
+                        <p>
+                            My heart stopped.
+                        </p>
+
+                        <p>
+                            "My father?"
+                        </p>
+
+                        <p>
+                            She began crying.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHT — CONTINUED
+                        </p>
+
+                        <p>
+                            "Close the door."
+                        </p>
+
+                        <p>
+                            "Why?"
+                        </p>
+
+                        <p class="large emphasis">
+                            "Because he doesn't know I'm still alive."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER NINE
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER NINE
+                        </p>
+
+                        <p>
+                            I ran downstairs.
+                        </p>
+
+                        <p>
+                            My mother was sitting exactly where she had been.
+                        </p>
+
+                        <p>
+                            Watching television.
+                        </p>
+
+                        <p>
+                            I stared at her.
+                        </p>
+
+                        <p>
+                            She looked back.
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p>
+                            I couldn't speak.
+                        </p>
+
+                        <p>
+                            Then I looked toward the hallway.
+                        </p>
+
+                        <p>
+                            The locked room was still open.
+                        </p>
+
+                        <p>
+                            Something moved inside.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER NINE — CONTINUED
+                        </p>
+
+                        <p>
+                            I went back.
+                        </p>
+
+                        <p>
+                            The room was empty.
+                        </p>
+
+                        <p>
+                            No mother.
+                        </p>
+
+                        <p>
+                            No furniture.
+                        </p>
+
+                        <p>
+                            No windows.
+                        </p>
+
+                        <p>
+                            Only writing on the wall.
+                        </p>
+
+                        <p>
+                            My handwriting.
+                        </p>
+
+                        <p>
+                            I recognized it immediately.
+                        </p>
+
+                        <p>
+                            Thousands of words covered the room.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER NINE — CONTINUED
+                        </p>
+
+                        <p>
+                            One sentence repeated again and again.
+                        </p>
+
+                        <p class="large emphasis">
+                            I FOUND THE KILLER.
+                        </p>
+
+                        <p>
+                            I FOUND THE KILLER.
+                        </p>
+
+                        <p>
+                            I FOUND THE KILLER.
+                        </p>
+
+                        <p>
+                            I FOUND THE KILLER.
+                        </p>
+
+                        <p>
+                            But beneath the final sentence was something different.
+                        </p>
+
+                        <p class="large emphasis">
+                            I FORGOT WHO IT WAS.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER TEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER TEN
+                        </p>
+
+                        <p>
+                            Detective Aryan found me sitting outside the house.
+                        </p>
+
+                        <p>
+                            He didn't ask what happened.
+                        </p>
+
+                        <p>
+                            That was strange.
+                        </p>
+
+                        <p>
+                            He simply sat beside me.
+                        </p>
+
+                        <p>
+                            "You opened the room."
+                        </p>
+
+                        <p>
+                            I looked at him.
+                        </p>
+
+                        <p>
+                            "How do you know?"
+                        </p>
+
+                        <p>
+                            He sighed.
+                        </p>
+
+                        <p>
+                            "Because I told you not to."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "You've never been here before."
+                        </p>
+
+                        <p>
+                            Aryan looked confused.
+                        </p>
+
+                        <p>
+                            Then frightened.
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            He stood.
+                        </p>
+
+                        <p>
+                            "You're remembering things out of order again."
+                        </p>
+
+                        <p>
+                            "What do you mean again?"
+                        </p>
+
+                        <p>
+                            He froze.
+                        </p>
+
+                        <p>
+                            I stood too.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "What did you mean by again?"
+                        </p>
+
+                        <p>
+                            Aryan didn't answer.
+                        </p>
+
+                        <p>
+                            I grabbed his arm.
+                        </p>
+
+                        <p>
+                            "How many times has this happened?"
+                        </p>
+
+                        <p>
+                            His face changed.
+                        </p>
+
+                        <p class="large emphasis">
+                            And for the first time since I had met him—
+                        </p>
+
+                        <p class="large emphasis">
+                            the detective looked terrified of me.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER ELEVEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER ELEVEN
+                        </p>
+
+                        <h2>
+                            THE JOURNAL
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            The police eventually found the killer's journal.
+                        </p>
+
+                        <p>
+                            They didn't tell the public.
+                        </p>
+
+                        <p>
+                            They didn't tell the teachers.
+                        </p>
+
+                        <p>
+                            They didn't tell the parents.
+                        </p>
+
+                        <p>
+                            But Detective Aryan showed me.
+                        </p>
+
+                        <p>
+                            I don't know why.
+                        </p>
+
+                        <p>
+                            Maybe he trusted me.
+                        </p>
+
+                        <p>
+                            Maybe he was afraid.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ELEVEN — CONTINUED
+                        </p>
+
+                        <p>
+                            The journal was old.
+                        </p>
+
+                        <p>
+                            Its pages were damaged.
+                        </p>
+
+                        <p>
+                            Names were written everywhere.
+                        </p>
+
+                        <p>
+                            Dates.
+                        </p>
+
+                        <p>
+                            Locations.
+                        </p>
+
+                        <p>
+                            Descriptions of people.
+                        </p>
+
+                        <p>
+                            Some of the names belonged to victims.
+                        </p>
+
+                        <p>
+                            Some belonged to people who were still alive.
+                        </p>
+
+                        <p>
+                            And then I saw mine.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ELEVEN — CONTINUED
+                        </p>
+
+                        <p class="large emphasis">
+                            SAKSHYAM
+                        </p>
+
+                        <p>
+                            Written hundreds of times.
+                        </p>
+
+                        <p>
+                            I turned the page.
+                        </p>
+
+                        <p>
+                            Then another.
+                        </p>
+
+                        <p>
+                            Then another.
+                        </p>
+
+                        <p>
+                            Every murder had been described before it happened.
+                        </p>
+
+                        <p>
+                            The detective watched my face.
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p>
+                            I held up the journal.
+                        </p>
+
+                        <p>
+                            "This handwriting."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER ELEVEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "What about it?"
+                        </p>
+
+                        <p>
+                            I looked at him.
+                        </p>
+
+                        <p>
+                            My hands started shaking.
+                        </p>
+
+                        <p class="large emphasis">
+                            "It's mine."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER TWELVE
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER TWELVE
+                        </p>
+
+                        <p>
+                            I didn't sleep that night.
+                        </p>
+
+                        <p>
+                            I sat in front of my laptop.
+                        </p>
+
+                        <p>
+                            Watching the screen.
+                        </p>
+
+                        <p>
+                            Waiting.
+                        </p>
+
+                        <p>
+                            At 4:29 A.M., the computer turned on.
+                        </p>
+
+                        <p>
+                            By itself.
+                        </p>
+
+                        <p>
+                            A new document opened.
+                        </p>
+
+                        <p class="large emphasis">
+                            DAY 23
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TWELVE — CONTINUED
+                        </p>
+
+                        <p>
+                            One sentence appeared.
+                        </p>
+
+                        <p class="quote">
+                            Sakshyam finally discovers the killer's journal.
+                        </p>
+
+                        <p>
+                            I stopped breathing.
+                        </p>
+
+                        <p>
+                            Another appeared.
+                        </p>
+
+                        <p class="quote">
+                            He recognizes the handwriting.
+                        </p>
+
+                        <p>
+                            Another.
+                        </p>
+
+                        <p class="quote">
+                            He begins to suspect himself.
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            The next sentence appeared.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TWELVE — CONTINUED
+                        </p>
+
+                        <p class="large emphasis">
+                            He is wrong.
+                        </p>
+
+                        <p>
+                            I stared at the screen.
+                        </p>
+
+                        <p>
+                            Then another sentence appeared.
+                        </p>
+
+                        <p class="large emphasis">
+                            You are also wrong.
+                        </p>
+
+                        <p>
+                            I slowly looked around the room.
+                        </p>
+
+                        <p>
+                            There was nobody there.
+                        </p>
+
+                        <p>
+                            The sentence continued.
+                        </p>
+
+                        <p class="quote">
+                            The person reading this thinks they know where this is going.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER TWELVE — CONTINUED
+                        </p>
+
+                        <p>
+                            They think Sakshyam is the killer.
+                        </p>
+
+                        <p>
+                            They think Aarav is imaginary.
+                        </p>
+
+                        <p>
+                            They think Detective Aryan knows the truth.
+                        </p>
+
+                        <p class="large emphasis">
+                            They are wrong about all three.
+                        </p>
+
+                        <p>
+                            Then the screen went black.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER THIRTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER THIRTEEN
+                        </p>
+
+                        <p>
+                            Aarav disappeared.
+                        </p>
+
+                        <p>
+                            For three days.
+                        </p>
+
+                        <p>
+                            I almost felt relieved.
+                        </p>
+
+                        <p>
+                            Then I found him somewhere I had never seen him before.
+                        </p>
+
+                        <p>
+                            In my childhood bedroom.
+                        </p>
+
+                        <p>
+                            I hadn't entered that room in years.
+                        </p>
+
+                        <p>
+                            He was sitting on the floor.
+                        </p>
+
+                        <p>
+                            Playing with something.
+                        </p>
+
+                        <p>
+                            "What are you doing here?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER THIRTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            He looked up.
+                        </p>
+
+                        <p>
+                            "I used to live here."
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            "Yes."
+                        </p>
+
+                        <p>
+                            "This is my house."
+                        </p>
+
+                        <p>
+                            Aarav smiled.
+                        </p>
+
+                        <p>
+                            "I know."
+                        </p>
+
+                        <p>
+                            "Then why are you saying you lived here?"
+                        </p>
+
+                        <p>
+                            He became quiet.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER THIRTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "Sakshyam."
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p>
+                            "Do you remember when you were younger?"
+                        </p>
+
+                        <p>
+                            "Of course."
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            His voice cracked.
+                        </p>
+
+                        <p class="quote">
+                            "Do you remember before you started calling this your life?"
+                        </p>
+
+                        <p>
+                            I stared at him.
+                        </p>
+
+                        <p>
+                            "What does that mean?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER THIRTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            Aarav stood.
+                        </p>
+
+                        <p>
+                            For the first time, he looked taller than me.
+                        </p>
+
+                        <p class="large emphasis">
+                            "You're not my imaginary friend."
+                        </p>
+
+                        <p>
+                            I stopped.
+                        </p>
+
+                        <p>
+                            He smiled sadly.
+                        </p>
+
+                        <p>
+                            "I think..."
+                        </p>
+
+                        <p>
+                            He looked toward the window.
+                        </p>
+
+                        <p>
+                            Then back at me.
+                        </p>
+
+                        <p class="large emphasis">
+                            "I think I am yours."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER FOURTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER FOURTEEN
+                        </p>
+
+                        <p>
+                            That was when I began questioning everything.
+                        </p>
+
+                        <p>
+                            Maybe Aarav was imaginary.
+                        </p>
+
+                        <p>
+                            Maybe the detective was manipulating me.
+                        </p>
+
+                        <p>
+                            Maybe I had written the journal.
+                        </p>
+
+                        <p>
+                            Maybe I had committed the murders and forgotten.
+                        </p>
+
+                        <p>
+                            But there was another possibility.
+                        </p>
+
+                        <p class="large emphasis">
+                            A worse one.
+                        </p>
+
+                        <p>
+                            What if I wasn't the one imagining Aarav?
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOURTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            What if Aarav had imagined me?
+                        </p>
+
+                        <p>
+                            What if this entire life—
+                        </p>
+
+                        <p>
+                            college,
+                        </p>
+
+                        <p>
+                            my friends,
+                        </p>
+
+                        <p>
+                            my plans,
+                        </p>
+
+                        <p>
+                            my future,
+                        </p>
+
+                        <p>
+                            Australia,
+                        </p>
+
+                        <p>
+                            the house,
+                        </p>
+
+                        <p>
+                            everything I was desperately trying to become—
+                        </p>
+
+                        <p>
+                            existed inside someone else's imagination?
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOURTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I found Aarav later that night.
+                        </p>
+
+                        <p>
+                            "Answer me honestly."
+                        </p>
+
+                        <p>
+                            He nodded.
+                        </p>
+
+                        <p>
+                            "Am I real?"
+                        </p>
+
+                        <p>
+                            He didn't answer.
+                        </p>
+
+                        <p>
+                            "Aarav."
+                        </p>
+
+                        <p>
+                            His eyes filled with tears.
+                        </p>
+
+                        <p class="large emphasis">
+                            "Are you?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FOURTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I wanted to scream at him.
+                        </p>
+
+                        <p>
+                            But I couldn't.
+                        </p>
+
+                        <p>
+                            Because suddenly I realized something.
+                        </p>
+
+                        <p>
+                            I had never seen Aarav asleep.
+                        </p>
+
+                        <p>
+                            I had never seen him eat.
+                        </p>
+
+                        <p>
+                            I had never seen anyone introduce him.
+                        </p>
+
+                        <p>
+                            And nobody—
+                        </p>
+
+                        <p>
+                            not a single person—
+                        </p>
+
+                        <p class="large emphasis">
+                            had ever spoken his name before I did.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER FIFTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER FIFTEEN
+                        </p>
+
+                        <h2>
+                            THE PAGE
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            Detective Aryan brought me something.
+                        </p>
+
+                        <p>
+                            A page.
+                        </p>
+
+                        <p>
+                            Just one.
+                        </p>
+
+                        <p>
+                            It had been found at the newest crime scene.
+                        </p>
+
+                        <p>
+                            There was blood around its edges.
+                        </p>
+
+                        <p>
+                            But the writing was clear.
+                        </p>
+
+                        <p>
+                            The first sentence read:
+                        </p>
+
+                        <p class="quote">
+                            Now ask yourself who the real killer is.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIFTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I looked at Aryan.
+                        </p>
+
+                        <p>
+                            "What is this?"
+                        </p>
+
+                        <p>
+                            He said nothing.
+                        </p>
+
+                        <p>
+                            I continued reading.
+                        </p>
+
+                        <p class="quote">
+                            If you hadn't turned the pages, no one would be dead.
+                        </p>
+
+                        <p>
+                            My stomach dropped.
+                        </p>
+
+                        <p>
+                            The detective looked at me.
+                        </p>
+
+                        <p>
+                            "Do you understand it?"
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            "Good."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIFTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I looked at him.
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p class="large emphasis">
+                            "If you understood it already, we'd both be dead."
+                        </p>
+
+                        <p>
+                            I stared at the page again.
+                        </p>
+
+                        <p>
+                            There was more writing underneath.
+                        </p>
+
+                        <p>
+                            But it wasn't addressed to me.
+                        </p>
+
+                        <p>
+                            It was addressed to you.
+                        </p>
+
+                        <p class="quote">
+                            You wanted another chapter.
+                        </p>
+
+                        <p class="quote">
+                            You wanted another body.
+                        </p>
+
+                        <p class="quote">
+                            You wanted to know what happened next.
+                        </p>
+
+                        <p class="large emphasis">
+                            So you continued.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER FIFTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I closed the page.
+                        </p>
+
+                        <p>
+                            My hands were shaking.
+                        </p>
+
+                        <p>
+                            Aryan grabbed it.
+                        </p>
+
+                        <p>
+                            "Don't."
+                        </p>
+
+                        <p>
+                            I looked at him.
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p class="large emphasis">
+                            "Don't stop."
+                        </p>
+
+                        <p>
+                            "What are you talking about?"
+                        </p>
+
+                        <p>
+                            His voice became desperate.
+                        </p>
+
+                        <p class="large emphasis">
+                            "Keep reading."
+                        </p>
+
+                        <p>
+                            "This isn't a book."
+                        </p>
+
+                        <p>
+                            His face went pale.
+                        </p>
+
+                        <p>
+                            Then he whispered:
+                        </p>
+
+                        <p class="large emphasis">
+                            "How do you know?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER SIXTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER SIXTEEN
+                        </p>
+
+                        <p>
+                            The next morning, Detective Aryan was missing.
+                        </p>
+
+                        <p>
+                            His office was empty.
+                        </p>
+
+                        <p>
+                            His car was abandoned.
+                        </p>
+
+                        <p>
+                            The police said he had never worked with them.
+                        </p>
+
+                        <p>
+                            That was impossible.
+                        </p>
+
+                        <p>
+                            I had seen him.
+                        </p>
+
+                        <p>
+                            Spoken to him.
+                        </p>
+
+                        <p>
+                            He had investigated the murders.
+                        </p>
+
+                        <p>
+                            I showed them his photograph.
+                        </p>
+
+                        <p>
+                            Nobody recognized him.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIXTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I opened the killer's journal.
+                        </p>
+
+                        <p>
+                            Every page that mentioned Aryan was gone.
+                        </p>
+
+                        <p>
+                            I returned home.
+                        </p>
+
+                        <p>
+                            Aarav was waiting.
+                        </p>
+
+                        <p>
+                            "You did this."
+                        </p>
+
+                        <p>
+                            "No."
+                        </p>
+
+                        <p>
+                            "You said he wasn't real."
+                        </p>
+
+                        <p>
+                            "I didn't say that."
+                        </p>
+
+                        <p>
+                            "You knew something would happen."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SIXTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            Aarav looked exhausted.
+                        </p>
+
+                        <p>
+                            "Sakshyam."
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                        <p>
+                            "You're still asking the wrong question."
+                        </p>
+
+                        <p>
+                            "Then tell me the right one."
+                        </p>
+
+                        <p>
+                            He stared directly at me.
+                        </p>
+
+                        <p class="large emphasis">
+                            "Who is remembering who?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER SEVENTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER SEVENTEEN
+                        </p>
+
+                        <p>
+                            I returned to the locked room.
+                        </p>
+
+                        <p>
+                            The door was already open.
+                        </p>
+
+                        <p>
+                            Inside, the walls had changed.
+                        </p>
+
+                        <p>
+                            The writing was gone.
+                        </p>
+
+                        <p>
+                            There was only one sentence now.
+                        </p>
+
+                        <p class="large emphasis center">
+                            DON'T FINISH THE BOOK.
+                        </p>
+
+                        <p>
+                            I laughed.
+                        </p>
+
+                        <p>
+                            I don't know why.
+                        </p>
+
+                        <p>
+                            Maybe fear becomes funny when it gets too large.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVENTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            Then another sentence appeared beneath it.
+                        </p>
+
+                        <p class="large emphasis center">
+                            HE IS WAITING FOR THE LAST PAGE.
+                        </p>
+
+                        <p>
+                            I stepped closer.
+                        </p>
+
+                        <p>
+                            "Who?"
+                        </p>
+
+                        <p>
+                            Nothing.
+                        </p>
+
+                        <p>
+                            Then:
+                        </p>
+
+                        <p class="large emphasis center">
+                            THE ONE WHO KILLED THE FIRST PERSON.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVENTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            I stopped.
+                        </p>
+
+                        <p>
+                            My mind returned to the first murder.
+                        </p>
+
+                        <p>
+                            The body behind the computer lab.
+                        </p>
+
+                        <p>
+                            The victim.
+                        </p>
+
+                        <p>
+                            Prakash.
+                        </p>
+
+                        <p>
+                            The beginning of everything.
+                        </p>
+
+                        <p>
+                            But then I remembered something.
+                        </p>
+
+                        <p class="large emphasis">
+                            Something so obvious I almost missed it.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVENTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            The first person hadn't been murdered.
+                        </p>
+
+                        <p>
+                            Prakash had disappeared before anyone died.
+                        </p>
+
+                        <p class="large emphasis">
+                            Which meant—
+                        </p>
+
+                        <p>
+                            the first murder happened before the story began.
+                        </p>
+
+                        <p>
+                            Someone was already dead before you opened the first page.
+                        </p>
+
+                        <p>
+                            Someone had died before I woke up.
+                        </p>
+
+                        <p>
+                            Before Aarav.
+                        </p>
+
+                        <p>
+                            Before the detective.
+                        </p>
+
+                        <p>
+                            Before the journal.
+                        </p>
+
+                        <p>
+                            Before everything.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER SEVENTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            And suddenly I understood why 4:30 A.M. mattered.
+                        </p>
+
+                        <p>
+                            Not because that was when I woke up.
+                        </p>
+
+                        <p class="large emphasis">
+                            Because that was when someone else did.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =====================================
+                     CHAPTER EIGHTEEN
+                ====================================== -->
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="chapter-number">
+                            CHAPTER EIGHTEEN
+                        </p>
+
+                        <h2>
+                            4:30
+                        </h2>
+
+                        <div class="page-divider"></div>
+
+                        <p>
+                            The alarm rang.
+                        </p>
+
+                        <p>
+                            I opened my eyes.
+                        </p>
+
+                        <p>
+                            Aarav was sitting in the corner.
+                        </p>
+
+                        <p>
+                            But this time—
+                        </p>
+
+                        <p class="large emphasis">
+                            he wasn't looking at me.
+                        </p>
+
+                        <p>
+                            He was looking toward the reader.
+                        </p>
+
+                        <p>
+                            Toward you.
+                        </p>
+
+                        <p>
+                            "Sakshyam?"
+                        </p>
+
+                        <p>
+                            "What?"
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            "I think he's here."
+                        </p>
+
+                        <p>
+                            "Who?"
+                        </p>
+
+                        <p>
+                            Aarav pointed beyond the room.
+                        </p>
+
+                        <p>
+                            Beyond the page.
+                        </p>
+
+                        <p>
+                            I couldn't see anything.
+                        </p>
+
+                        <p class="large emphasis">
+                            But you can.
+                        </p>
+
+                        <p>
+                            Can't you?
+                        </p>
+
+                        <p>
+                            Aarav smiled.
+                        </p>
+
+                        <p>
+                            Then whispered:
+                        </p>
+
+                        <p class="large emphasis">
+                            "I found him."
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page final-page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            CHAPTER EIGHTEEN — CONTINUED
+                        </p>
+
+                        <p>
+                            The lights went out.
+                        </p>
+
+                        <p>
+                            My computer turned on.
+                        </p>
+
+                        <p>
+                            One sentence appeared.
+                        </p>
+
+                        <p class="large emphasis center">
+                            BOOK ONE ENDS HERE.
+                        </p>
+
+                        <p>
+                            Then another.
+                        </p>
+
+                        <p class="large emphasis center">
+                            THE KILLER HAS NOT BEEN REVEALED.
+                        </p>
+
+                        <p>
+                            Then another.
+                        </p>
+
+                        <p class="large emphasis center">
+                            BUT HE HAS BEEN INTRODUCED.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page final-page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            THE FINAL PAGES
+                        </p>
+
+                        <p>
+                            I stared at the screen.
+                        </p>
+
+                        <p>
+                            My heart stopped.
+                        </p>
+
+                        <p>
+                            Because I realized something impossible.
+                        </p>
+
+                        <p>
+                            The killer wasn't hiding.
+                        </p>
+
+                        <p>
+                            He had been here the entire time.
+                        </p>
+
+                        <p>
+                            Talking.
+                        </p>
+
+                        <p>
+                            Watching.
+                        </p>
+
+                        <p>
+                            Helping.
+                        </p>
+
+                        <p>
+                            Maybe lying.
+                        </p>
+
+                        <p>
+                            Maybe telling the truth.
+                        </p>
+
+                        <p>
+                            Maybe appearing only when necessary.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page final-page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            THE FINAL PAGES — CONTINUED
+                        </p>
+
+                        <p>
+                            But he had been here.
+                        </p>
+
+                        <p>
+                            Somewhere.
+                        </p>
+
+                        <p>
+                            On these pages.
+                        </p>
+
+                        <p>
+                            You read his name.
+                        </p>
+
+                        <p>
+                            You trusted him.
+                        </p>
+
+                        <p>
+                            And when you begin Book Two—
+                        </p>
+
+                        <p>
+                            you will probably read it again.
+                        </p>
+
+                        <p>
+                            Because that is what you always do.
+                        </p>
+
+                        <p class="large emphasis">
+                            You keep turning pages.
+                        </p>
+
+                        <p>
+                            Even after someone tells you that turning them is dangerous.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page final-page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            THE FINAL PAGES — CONTINUED
+                        </p>
+
+                        <p>
+                            So go ahead.
+                        </p>
+
+                        <p>
+                            Close this book.
+                        </p>
+
+                        <p>
+                            The lights are going out.
+                        </p>
+
+                        <p>
+                            Aarav is gone.
+                        </p>
+
+                        <p>
+                            Detective Aryan is missing.
+                        </p>
+
+                        <p>
+                            The locked room is open.
+                        </p>
+
+                        <p>
+                            The journal is waiting.
+                        </p>
+
+                        <p>
+                            And somewhere inside these pages—
+                        </p>
+
+                        <p class="large emphasis">
+                            the murderer is still alive.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="page final-page">
+
+                    <div class="page-content">
+
+                        <p class="continued">
+                            THE FINAL PAGES — CONTINUED
+                        </p>
+
+                        <p>
+                            I know.
+                        </p>
+
+                        <p>
+                            Because he just whispered something to me.
+                        </p>
+
+                        <p>
+                            He said:
+                        </p>
+
+                        <p class="quote">
+                            "See you in Book Two."
+                        </p>
+
+                        <p>
+                            And then he asked me something.
+                        </p>
+
+                        <p>
+                            Something I still cannot answer.
+                        </p>
+
+                        <p>
+                            Something you should ask yourself before you close this book.
+                        </p>
+
+                        <p class="large center">
+                            If you were the one reading my life...
+                        </p>
+
+                        <p class="large emphasis center">
+                            how did you know where I would end up?
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             CONTROLS
+        ========================================== -->
+
+        <section class="controls">
+
+            <button
+                class="nav-button"
+                id="prevButton"
+                aria-label="Previous page"
+            >
+                ←
+            </button>
+
+
+            <div class="progress">
+
+                <span id="pageNumber">
+                    PAGE 1
+                </span>
+
+
+                <div class="progress-line">
+
+                    <div
+                        id="progressFill"
+                    ></div>
+
+                </div>
+
+
+                <span id="totalPages">
+                    OF 1
+                </span>
+
+            </div>
+
+
+            <button
+                class="nav-button"
+                id="nextButton"
+                aria-label="Next page"
+            >
+                →
+            </button>
+
+        </section>
+
+
+        <p class="keyboard-help">
+            USE ← → ARROW KEYS TO TURN THE PAGES
+        </p>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           BOOK ENGINE
+        ========================================== */
+
+        const pages =
+            document.querySelectorAll(".page");
+
+
+        const nextButton =
+            document.getElementById(
+                "nextButton"
+            );
+
+
+        const prevButton =
+            document.getElementById(
+                "prevButton"
+            );
+
+
+        const pageNumber =
+            document.getElementById(
+                "pageNumber"
+            );
+
+
+        const totalPages =
+            document.getElementById(
+                "totalPages"
+            );
+
+
+        const progressFill =
+            document.getElementById(
+                "progressFill"
+            );
+
+
+        const chapterName =
+            document.getElementById(
+                "chapterName"
+            );
+
+
+        const whisper =
+            document.getElementById(
+                "whisper"
+            );
+
+
+        let currentPage = 0;
+
+
+        totalPages.textContent =
+            `OF ${pages.length}`;
+
+
+        function getPageTitle(page) {
+
+            const chapter =
+                page.querySelector(
+                    ".chapter-number"
+                );
+
+
+            const continued =
+                page.querySelector(
+                    ".continued"
+                );
+
+
+            const heading =
+                page.querySelector("h2");
+
+
+            if (chapter) {
+
+                if (heading) {
+
+                    return (
+                        chapter.textContent.trim() +
+                        " · " +
+                        heading.textContent.trim()
+                    );
+
+                }
+
+                return chapter.textContent.trim();
+
+            }
+
+
+            if (continued) {
+
+                return continued.textContent.trim();
+
+            }
+
+
+            return "COVER";
+
+        }
+
+
+        function updateBook() {
+
+            pages.forEach(
+                (
+                    page,
+                    index
+                ) => {
+
+                    page.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+                        index === currentPage
+                    ) {
+
+                        page.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            pageNumber.textContent =
+                `PAGE ${currentPage + 1}`;
+
+
+            chapterName.textContent =
+                getPageTitle(
+                    pages[currentPage]
+                );
+
+
+            const progress =
+                (
+                    (currentPage + 1) /
+                    pages.length
+                ) * 100;
+
+
+            progressFill.style.width =
+                `${progress}%`;
+
+
+            prevButton.disabled =
+                currentPage === 0;
+
+
+            nextButton.disabled =
+                currentPage ===
+                pages.length - 1;
+
+
+            triggerWhisper();
+
+        }
+
+
+        function nextPage() {
+
+            if (
+                currentPage <
+                pages.length - 1
+            ) {
+
+                currentPage++;
+
+                updateBook();
+
+            }
+
+        }
+
+
+        function previousPage() {
+
+            if (
+                currentPage > 0
+            ) {
+
+                currentPage--;
+
+                updateBook();
+
+            }
+
+        }
+
+
+        nextButton.addEventListener(
+            "click",
+            nextPage
+        );
+
+
+        prevButton.addEventListener(
+            "click",
+            previousPage
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (
+                    event.key ===
+                    "ArrowRight"
+                ) {
+
+                    nextPage();
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowLeft"
+                ) {
+
+                    previousPage();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           WHISPERS
+        ========================================== */
+
+        const whispers = [
+            "Don't stop reading.",
+            "Someone is awake.",
+            "Are you sure you're real?",
+            "You forgot something.",
+            "He knows you're here.",
+            "Don't trust the detective.",
+            "That wasn't there before.",
+            "Who is remembering who?",
+            "You've already met him.",
+            "Keep turning."
+        ];
+
+
+        function triggerWhisper() {
+
+            whisper.classList.remove(
+                "show"
+            );
+
+
+            if (
+                currentPage === 0
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                currentPage % 6 !== 0
+            ) {
+
+                return;
+
+            }
+
+
+            setTimeout(
+                () => {
+
+                    whisper.textContent =
+                        whispers[
+                            Math.floor(
+                                Math.random() *
+                                whispers.length
+                            )
+                        ];
+
+
+                    whisper.classList.add(
+                        "show"
+                    );
+
+                },
+                1800
+            );
+
+        }
+
+
+        /* =========================================
+           CLICK PAGE TO ADVANCE
+
+           Left side = previous
+           Right side = next
+        ========================================== */
+
+        document
+            .getElementById("book")
+            .addEventListener(
+                "click",
+                event => {
+
+                    const rect =
+                        event.currentTarget
+                            .getBoundingClientRect();
+
+
+                    const clickX =
+                        event.clientX -
+                        rect.left;
+
+
+                    if (
+                        clickX >
+                        rect.width / 2
+                    ) {
+
+                        nextPage();
+
+                    } else {
+
+                        previousPage();
+
+                    }
+
+                }
+            );
+
+
+
+        updateBook();
+
+
+    </script>
+    <script src="script.js"></script>
+
+</body>
+</html>
